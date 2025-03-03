@@ -1,0 +1,6 @@
+﻿services:
+  poc-estados-api:
+    image: poc-estados-api
+    build:
+      context: .
+      dockerfile: poc-estados-api/Dockerfile
