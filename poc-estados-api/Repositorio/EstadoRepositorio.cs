@@ -59,7 +59,7 @@ public class EstadoRepositorio: IEstadoRepositorio
     {
         return _bd.AccionesEstado
             .Join(_bd.Acciones, 
-                ae => ae.IdAccion, 
+                ae => ae.IdAccionEstado, 
                 a => a.IdAccion, 
                 (ae, a) => new 
                 {

@@ -1,6 +1,19 @@
 ﻿services:
-  poc-estados-api:
-    image: poc-estados-api
-    build:
-      context: .
-      dockerfile: poc-estados-api/Dockerfile
+  sqlserver1:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver1
+    restart: always
+    environment:
+      SA_PASSWORD: "DevTech@q1w2e3r4t5y6"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./Data/sqlserver1_data:/var/opt/mssql
+      - ./Data/sql_backups:/backups  # Volumen compartido para backups
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge

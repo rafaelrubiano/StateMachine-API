@@ -5,7 +5,7 @@ namespace poc_estados_api.Models;
 public class AccionEstado
 {
     [Key]
-    public int IdAccion { get; set; }
+    public int IdAccionEstado { get; set; }
     public int IdEstadoDesde { get; set; }
     public int IdEstadoHasta { get; set; }
     public string GeneraEvento { get; set; }

@@ -37,7 +37,7 @@ namespace poc_estados_api.Controllers
         }
         
         [HttpGet("IdSolicitud", Name = "GetSolicitud")]
-        public ActionResult GetSolicitudes(int IdSolicitud)
+        public ActionResult GetSolicitudes([FromQuery] int IdSolicitud)
         {
             var itemSolicitud = _ctSolicitudRepo.GetSolicitudById(IdSolicitud);
             if (itemSolicitud == null)
@@ -110,27 +110,27 @@ namespace poc_estados_api.Controllers
             return Ok(solicitud);
         }
         
-        [HttpGet("{id}/estados")]
-        public async Task<ActionResult<List<EstadoDto>>> GetEstadosDeSolicitud(int id)
-        {
-            var estados = await _context.Estados
-                .Where(e => e.IdEstado == id) // Filtra correctamente según la relación
-                .Select(e => new EstadoDto
-                {
-                    Nombre = e.Nombre,
-                    Fecha = e.Creado.HasValue ? e.Creado.Value.ToString("yyyy-MM-dd") : "N/A",
-                    Icono = Icons.Material.Filled.CheckCircle,
-                    Color = Color.Primary
-                })
-                .ToListAsync();
+        //[HttpGet("{id}/estados")]
+        //public async Task<ActionResult<List<EstadoDto>>> GetEstadosDeSolicitud(int id)
+        //{
+        //    var estados = await _context.Estados
+        //        .Where(e => e.IdEstado == id) // Filtra correctamente según la relación
+        //        .Select(e => new EstadoDto
+        //        {
+        //            Nombre = e.Nombre,
+        //            Fecha = e.Creado.HasValue ? e.Creado.Value.ToString("yyyy-MM-dd") : "N/A",
+        //            Icono = Icons.Material.Filled.CheckCircle,
+        //            Color = Color.Primary
+        //        })
+        //        .ToListAsync();
 
-            if (estados == null || estados.Count == 0)
-            {
-                return NotFound();
-            }
+        //    if (estados == null || estados.Count == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return estados;
-        }
+        //    return estados;
+        //}
 
     }
 }

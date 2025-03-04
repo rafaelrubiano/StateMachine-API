@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using poc_estados_api.Data;
 
@@ -11,9 +12,11 @@ using poc_estados_api.Data;
 namespace poc_estados_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250304162908_Ajuste al los modelos")]
+    partial class Ajusteallosmodelos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,11 +57,11 @@ namespace poc_estados_api.Migrations
 
             modelBuilder.Entity("poc_estados_api.Models.AccionEstado", b =>
                 {
-                    b.Property<int>("IdAccionEstado")
+                    b.Property<int>("IdAccion")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAccionEstado"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAccion"));
 
                     b.Property<DateTime?>("Creado")
                         .HasColumnType("datetime2");
@@ -84,7 +87,7 @@ namespace poc_estados_api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdAccionEstado");
+                    b.HasKey("IdAccion");
 
                     b.ToTable("AccionesEstado");
                 });

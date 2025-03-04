@@ -105,7 +105,6 @@ $tf/
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
-*.DotSettings
 
 # JustCode is a .NET coding add-in
 .JustCode
@@ -683,5 +682,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,visualstudio,visualstudiocode,jetbrains,linux,windows,macos
-src/Presentation/wwwroot/
+/src/Presentation/Client/**
+/src/Application/obj/**
 

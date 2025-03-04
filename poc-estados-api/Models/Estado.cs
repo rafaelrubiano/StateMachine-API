@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace poc_estados_api.Models;
 public class Estado
@@ -15,4 +16,7 @@ public class Estado
     public string ModificadoPor { get; set; }
     public DateTime? Modificado { get; set; }
     public string DescripcionDiagrama { get; set; }
+    [ForeignKey("Solicitud")]
+    public int? IdSolicitud { get; set; } 
+    public Solicitud Solicitud { get; set; } 
 }

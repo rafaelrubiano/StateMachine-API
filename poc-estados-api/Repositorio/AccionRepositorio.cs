@@ -42,7 +42,7 @@ public class AccionRepositorio : IAccionRepositorio
     public List<AccionEstadoDto> ObtenerTransiciones()
     {
         return (from ae in _context.AccionesEstado
-            join a in _context.Acciones on ae.IdAccion equals a.IdAccion
+            join a in _context.Acciones on ae.IdAccionEstado equals a.IdAccion
             select new AccionEstadoDto
             {
                 IdEstadoDesde = ae.IdEstadoDesde,
