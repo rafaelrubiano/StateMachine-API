@@ -60,6 +60,10 @@ namespace poc_estados_api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAccionEstado"));
 
+                    b.Property<string>("Acciones")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("Creado")
                         .HasColumnType("datetime2");
 
@@ -77,6 +81,9 @@ namespace poc_estados_api.Migrations
                     b.Property<int>("IdEstadoHasta")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdSolicitud")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("Modificado")
                         .HasColumnType("datetime2");
 
@@ -85,6 +92,8 @@ namespace poc_estados_api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdAccionEstado");
+
+                    b.HasIndex("IdSolicitud");
 
                     b.ToTable("AccionesEstado");
                 });
@@ -120,9 +129,6 @@ namespace poc_estados_api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IdSolicitud")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("Modificado")
                         .HasColumnType("datetime2");
 
@@ -137,9 +143,12 @@ namespace poc_estados_api.Migrations
                     b.Property<short?>("Orden")
                         .HasColumnType("smallint");
 
+                    b.Property<int?>("SolicitudIdSolicitud")
+                        .HasColumnType("int");
+
                     b.HasKey("IdEstado");
 
-                    b.HasIndex("IdSolicitud");
+                    b.HasIndex("SolicitudIdSolicitud");
 
                     b.ToTable("Estados");
                 });
@@ -172,6 +181,9 @@ namespace poc_estados_api.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("IdEstadoHasta")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdSolicitud")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Modificado")
@@ -217,18 +229,27 @@ namespace poc_estados_api.Migrations
                     b.ToTable("Solicitudes");
                 });
 
+            modelBuilder.Entity("poc_estados_api.Models.AccionEstado", b =>
+                {
+                    b.HasOne("poc_estados_api.Models.Solicitud", null)
+                        .WithMany("HistorialEventos")
+                        .HasForeignKey("IdSolicitud")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("poc_estados_api.Models.Estado", b =>
                 {
-                    b.HasOne("poc_estados_api.Models.Solicitud", "Solicitud")
+                    b.HasOne("poc_estados_api.Models.Solicitud", null)
                         .WithMany("Estados")
-                        .HasForeignKey("IdSolicitud");
-
-                    b.Navigation("Solicitud");
+                        .HasForeignKey("SolicitudIdSolicitud");
                 });
 
             modelBuilder.Entity("poc_estados_api.Models.Solicitud", b =>
                 {
                     b.Navigation("Estados");
+
+                    b.Navigation("HistorialEventos");
                 });
 #pragma warning restore 612, 618
         }

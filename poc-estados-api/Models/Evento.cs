@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace poc_estados_api.Models;
 
@@ -6,6 +7,8 @@ public class Evento
 {
     [Key]
     public int IdEvento { get; set; }
+    [ForeignKey("Solicitud")]
+    public int IdSolicitud { get; set; }
     public int IdAccion { get; set; }
     public int IdEstadoHasta { get; set; }
     public int IdEstadoDesde { get; set; }

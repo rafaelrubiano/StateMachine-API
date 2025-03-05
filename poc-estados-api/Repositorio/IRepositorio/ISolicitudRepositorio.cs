@@ -6,8 +6,8 @@ public interface ISolicitudRepositorio
 {
     ICollection<Solicitud> GetSolicitudes();
     Solicitud GetSolicitudById(int IdSolicitud);
-
     Solicitud GetEstadosDeSolicitud(int IdSolicitud);
+    bool ActualizarSolicitud(Solicitud solicitud);
     bool ExisteSolicitud(int IdSolicitud);
     bool CrearSolicitud(Solicitud solicitud);
     bool GuardarSolicitud();

@@ -124,35 +124,5 @@ namespace poc_estados_api.Controllers
             return NoContent();
         }
         
-        /*[HttpPost("cambiarEstado/{id}")]
-        public IActionResult CambiarEstado(int id, [FromBody] string accion)
-        {
-            var solicitud = _ctRepo.GetEstadoById(id);
-            if (solicitud == null)
-                return NotFound("Solicitud no encontrada.");
-
-            var stateMachine = new MiStateMachine(solicitud.IdEstado, _ctRepo);
-
-            if (string.IsNullOrWhiteSpace(accion))
-                return BadRequest("Acción inválida.");
-            
-            // 🔹 Verifica qué transiciones son posibles
-            var accionesPermitidas = stateMachine.ObtenerAccionesPermitidas();
-            Console.WriteLine($"Estado actual: {solicitud.IdEstado}");
-            Console.WriteLine($"Acción recibida: {accion}");
-            Console.WriteLine($"Acciones permitidas: {string.Join(", ", accionesPermitidas)}");
-
-            if (!stateMachine.PuedeEjecutar(accion))
-                return BadRequest("Transición no permitida.");
-
-            stateMachine.EjecutarAccion(accion);
-            solicitud.IdEstado = stateMachine.EstadoActual;
-
-            if (!_ctRepo.ActualizarEstado(solicitud))
-                return StatusCode(500, "Error al actualizar el estado.");
-
-            return Ok(solicitud);
-        }*/
-        
     }
 }

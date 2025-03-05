@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
 builder.Services.AddScoped<IEstadoRepositorio, EstadoRepositorio>();
 builder.Services.AddScoped<IAccionRepositorio, AccionRepositorio>();
 builder.Services.AddScoped<ISolicitudRepositorio, SolicitudRepositorio>();
+builder.Services.AddScoped<IEventoRepositorio, EventoRepositorio>();
 
 builder.Services.AddAutoMapper(typeof(EstadosMapper));
 

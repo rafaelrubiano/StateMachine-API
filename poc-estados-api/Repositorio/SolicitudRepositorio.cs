@@ -1,4 +1,5 @@
-﻿using poc_estados_api.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using poc_estados_api.Data;
 using poc_estados_api.Models;
 using poc_estados_api.Repositorio.IRepositorio;
 
@@ -17,12 +18,30 @@ public class SolicitudRepositorio: ISolicitudRepositorio
 
     public Solicitud GetSolicitudById(int IdSolicitud)
     {
-        return _bd.Solicitudes.FirstOrDefault(c => c.IdSolicitud == IdSolicitud);
+        return _bd.Solicitudes
+            .Include(s => s.Estados) // Cargar la lista de estados
+            .Include(s => s.HistorialEventos) // Cargar eventos históricos (AccionEstado)
+            .FirstOrDefault(c => c.IdSolicitud == IdSolicitud);
     }
 
     public Solicitud GetEstadosDeSolicitud(int IdSolicitud)
     {
         throw new NotImplementedException();
+    }
+
+    public bool ActualizarSolicitud(Solicitud solicitud)
+    {
+        var solicitudExistente = _bd.Solicitudes.Find(solicitud.IdSolicitud);
+        if (solicitudExistente != null)
+        {
+            _bd.Entry(solicitudExistente).CurrentValues.SetValues(solicitud);
+        }
+        else
+        {
+            _bd.Solicitudes.Update(solicitud);
+        }
+
+        return GuardarSolicitud();
     }
 
     public bool ExisteSolicitud(int IdSolicitud)
@@ -33,9 +52,25 @@ public class SolicitudRepositorio: ISolicitudRepositorio
 
     public bool CrearSolicitud(Solicitud solicitud)
     {
-        solicitud.Creado = DateTime.Now;
-        _bd.Solicitudes.Add(solicitud);
-        return GuardarSolicitud();
+        try
+        {
+            solicitud.Creado = DateTime.Now;
+            _bd.Solicitudes.Add(solicitud);
+            bool guardado = GuardarSolicitud();
+        
+            // Verifica que se haya generado el ID después de guardar
+            if (guardado && solicitud.IdSolicitud > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al crear solicitud: {ex.Message}");
+            return false;
+        }
     }
 
     public bool GuardarSolicitud()

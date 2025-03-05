@@ -10,6 +10,10 @@ public class EstadosMapper: Profile
     {
         CreateMap<Estado, EstadoDto>().ReverseMap();
         CreateMap<AccionEstado, AccionEstadoDto>().ReverseMap();
-        CreateMap<Solicitud, SolicitudDto>();
+        CreateMap<Solicitud, SolicitudDto>()
+            .ForMember(dest => dest.Estados, opt => opt.Ignore())
+            .ForMember(dest => dest.HistorialEstados, opt => opt.Ignore())
+            .ReverseMap();
+        
     }
 }

@@ -12,5 +12,8 @@ public class Solicitud
     public string UsuarioRed { get; set; }
     public string UsuarioNombre { get; set; }
     public DateTime? Creado { get; set; }
+    // Lista de estados por los que ha pasado la solicitud
     public List<Estado> Estados { get; set; } = new();
+    // Nueva propiedad para almacenar los eventos históricos
+    public List<AccionEstado> HistorialEventos { get; set; } = new();
 }

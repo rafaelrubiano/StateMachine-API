@@ -40,12 +40,11 @@ public class EstadoRepositorio: IEstadoRepositorio
 
     public bool ActualizarEstado(Estado estado)
     {
-        estado.Creado = DateTime.Now;
-        
         var estadoExiste = _bd.Estados.Find(estado.IdEstado);
         if (estadoExiste != null)
         {
             _bd.Entry(estadoExiste).CurrentValues.SetValues(estado);
+            _bd.Entry(estadoExiste).Property(e => e.Creado).IsModified = false; // ✅ Evita modificar la fecha de creación
         }
         else
         {
@@ -55,21 +54,31 @@ public class EstadoRepositorio: IEstadoRepositorio
         return GuardarEstado();
     }
 
+
     public IEnumerable<(int IdEstadoDesde, string Accion, int IdEstadoHasta)> GetTransiciones()
     {
-        return _bd.AccionesEstado
+        var transiciones = _bd.AccionesEstado
             .Join(_bd.Acciones, 
                 ae => ae.IdAccionEstado, 
                 a => a.IdAccion, 
                 (ae, a) => new 
                 {
                     ae.IdEstadoDesde,
-                    Accion = a.Descripcion ?? "", // Evitar valores nulos
+                    Accion = a.Descripcion ?? "sin accion", // Asegurar que nunca sea NULL
                     ae.IdEstadoHasta
                 })
-            .ToList()
-            .Select(t => (t.IdEstadoDesde, t.Accion, t.IdEstadoHasta));
+            .ToList();
+
+        // 🔹 Depurar valores en consola
+        Console.WriteLine($"🔍 Transiciones obtenidas: {transiciones.Count}");
+        foreach (var t in transiciones)
+        {
+            Console.WriteLine($"{t.IdEstadoDesde} -> {t.IdEstadoHasta} | Acción: '{t.Accion}'");
+        }
+
+        return transiciones.Select(t => (t.IdEstadoDesde, t.Accion, t.IdEstadoHasta));
     }
+
 
     public bool BorrarEstado(Estado estado)
     {

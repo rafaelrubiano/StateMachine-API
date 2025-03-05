@@ -10,6 +10,8 @@ public interface IAccionRepositorio
     bool ExisteAcciones(int IdAccion);
     bool AccionCreadoPor(Accion accion);
     bool AccionActualizadoPor(Accion accion);
+    AccionEstadoDto GetAccionEstado(int idSolicitud, string accion);
+    void RegistrarAccionEstado(int idSolicitud, int idEstadoDesde, int idEstadoHasta, string acciones, string usuario);
     List<AccionEstadoDto> ObtenerTransiciones();
     
 }

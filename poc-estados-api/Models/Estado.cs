@@ -16,7 +16,4 @@ public class Estado
     public string ModificadoPor { get; set; }
     public DateTime? Modificado { get; set; }
     public string DescripcionDiagrama { get; set; }
-    [ForeignKey("Solicitud")]
-    public int? IdSolicitud { get; set; } 
-    public Solicitud Solicitud { get; set; } 
 }

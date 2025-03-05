@@ -14,4 +14,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<Estado> Estados { get; set; }
     public DbSet<Evento> Eventos { get; set; }
     public DbSet<Solicitud> Solicitudes { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Solicitud>()
+            .HasMany(s => s.HistorialEventos)
+            .WithOne()
+            .HasForeignKey(ae => ae.IdSolicitud);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

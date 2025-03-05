@@ -39,6 +39,46 @@ public class AccionRepositorio : IAccionRepositorio
         throw new NotImplementedException();
     }
 
+    public AccionEstadoDto GetAccionEstado(int idSolicitud, string accion)
+    {
+        var resultadoDto = _context.AccionesEstado
+            .Where(a => (idSolicitud == 0 || a.IdSolicitud == idSolicitud) && 
+                        (string.IsNullOrEmpty(accion) || a.Acciones == accion))
+            .Select(a => new AccionEstadoDto
+            {
+                IdAccionEstado = a.IdAccionEstado,
+                IdSolicitud = a.IdSolicitud,
+                IdEstadoDesde = a.IdEstadoDesde,
+                IdEstadoHasta = a.IdEstadoHasta,
+                GeneraEvento = a.GeneraEvento,
+                CreadoPor = a.CreadoPor,
+                Creado = a.Creado,
+                ModificadoPor = a.ModificadoPor,
+                Modificado = a.Modificado,
+                Acciones = a.Acciones
+            })
+            .FirstOrDefault();
+
+        return resultadoDto;
+    }
+
+    public void RegistrarAccionEstado(int idSolicitud, int idEstadoDesde, int idEstadoHasta, string acciones, string usuario)
+    {
+        var accionEstado = new AccionEstado
+        {
+            IdSolicitud = idSolicitud,
+            IdEstadoDesde = idEstadoDesde,
+            IdEstadoHasta = idEstadoHasta,
+            Acciones = acciones,
+            GeneraEvento = "Sí",
+            CreadoPor = usuario,
+            Creado = DateTime.Now
+        };
+
+        _context.AccionesEstado.Add(accionEstado);
+        _context.SaveChanges();
+    }
+
     public List<AccionEstadoDto> ObtenerTransiciones()
     {
         return (from ae in _context.AccionesEstado
@@ -47,7 +87,7 @@ public class AccionRepositorio : IAccionRepositorio
             {
                 IdEstadoDesde = ae.IdEstadoDesde,
                 IdEstadoHasta = ae.IdEstadoHasta,
-                Acciones = a.Descripcion  // 🔹 Ahora `Accion` es un string
+                Acciones = a.Descripcion 
             }).ToList();
     }
 }
